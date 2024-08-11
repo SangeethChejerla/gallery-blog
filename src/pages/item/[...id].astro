@@ -1,0 +1,99 @@
+---
+import { motion } from 'framer-motion';
+import Layout from '../../layouts/Layout.astro';
+export async function getStaticPaths() {
+ const galleryItems = [
+  {
+    id: 1,
+    image: "https://images.pexels.com/photos/60163/pexels-photo-60163.jpeg",
+    title: "Nature",
+    description: "A beautiful view of nature with lush greenery and a serene atmosphere."
+  },
+  {
+    id: 2,
+   image: "https://images.pexels.com/photos/159613/ghettoblaster-radio-recorder-boombox-old-school-159613.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Old School Radio",
+    description: "A vintage boombox that brings back memories of the past."
+  },
+  {
+    id: 3,
+    image: "https://images.pexels.com/photos/1002669/pexels-photo-1002669.jpeg",
+    title: "Sunset",
+    description: "A stunning sunset with vibrant hues of orange, pink, and purple."
+  },
+  {
+    id: 4,
+    image: "https://images.pexels.com/photos/7810405/pexels-photo-7810405.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Mountain Landscape",
+    description: "A breathtaking mountain view with snow-capped peaks and clear skies."
+  },
+  {
+    id: 5,
+   image: "https://images.pexels.com/photos/5699509/pexels-photo-5699509.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Forest",
+    description: "A lush forest with dense trees and a tranquil path."
+  },
+  {
+    id: 6,
+    image: "https://images.pexels.com/photos/7162533/pexels-photo-7162533.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Cityscape",
+    description: "A vibrant cityscape with towering skyscrapers and bustling streets."
+  },
+  {
+    id: 7,
+    image: "https://images.pexels.com/photos/3808904/pexels-photo-3808904.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Beach",
+    description: "A relaxing beach scene with golden sands and turquoise waters."
+  },
+  {
+    id: 8,
+    image: "https://images.pexels.com/photos/3944091/pexels-photo-3944091.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Desert",
+    description: "A vast desert landscape with rolling sand dunes under a clear blue sky."
+  },
+  {
+    id: 9,
+    image: "https://images.pexels.com/photos/821738/pexels-photo-821738.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Autumn Leaves",
+    description: "A picturesque scene of autumn leaves in various shades of red, orange, and yellow."
+  }
+];
+
+  return galleryItems.map((item) => ({
+    params: { id: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<Layout title={item.title}>
+  <main class="container mx-auto px-4 py-8">
+    <a href="/" class="text-blue-500 hover:underline mb-4 inline-block">&larr; Back to Gallery</a>
+    <div class="flex flex-col md:flex-row gap-8">
+      <motion.div
+        client:load
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="md:w-1/2"
+      >
+        <img src={item.image} alt={item.title} class="w-full h-auto rounded-lg shadow-lg" />
+      </motion.div>
+      <motion.div
+        client:load
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="md:w-1/2"
+      >
+        <h1 class="text-3xl font-bold mb-4">{item.title}</h1>
+        <p class="text-lg mb-4">{item.description}</p>
+        <p class="text-gray-600">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+      </motion.div>
+    </div>
+  </main>
+</Layout>

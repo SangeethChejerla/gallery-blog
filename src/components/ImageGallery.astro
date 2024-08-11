@@ -1,0 +1,78 @@
+---
+interface Image {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: Image[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="gallery">
+  {images.map((image) => (
+    <img src={image.src} alt={image.alt} />
+  ))}
+</div>
+
+<style>
+.gallery{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1vh;
+    margin-inline: auto;
+    max-width: 40rem;
+    background: #141414;
+    padding: 1vh;
+}
+
+ .gallery > img{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: all 0.6s ease;
+}
+.gallery img:hover {
+  transform: scale(1.2);
+ z:10
+}
+.gallery:has(img:hover) img:not(:hover) {
+    scale: 0.5;
+    opacity: 0.5;
+     transition: all 0.6s ease;
+    filter: grayscale(70%);
+}
+
+</style>
+
+<script>
+ const gallery = document.querySelector('.gallery') as HTMLElement;
+
+// Ensure the gallery exists before proceeding
+if (gallery) {
+  // Select all image elements within the gallery
+  const images = gallery.querySelectorAll('img') as NodeListOf<HTMLImageElement>;
+
+  images.forEach(img => {
+    img.addEventListener('mouseover', (e: MouseEvent) => {
+      // Type assertion to get the target element as an HTMLImageElement
+      const targetImg = e.target as HTMLImageElement;
+
+      images.forEach(otherImg => {
+        if (otherImg !== targetImg) {
+          otherImg.style.transform = 'scale(0.9)';
+        }
+      });
+      targetImg.style.transform = 'scale(1.1)';
+    });
+
+    img.addEventListener('mouseout', () => {
+      images.forEach(img => {
+        img.style.transform = '';
+      });
+    });
+  });
+}
+</script>
